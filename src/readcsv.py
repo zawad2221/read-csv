@@ -1,8 +1,11 @@
 import pandas as pd
 import os
 
+country = input("Enter country name or *: ") 
+topic = input("Enter topic name or *: ")
+
 def readAndPrintRow(path):
-    df = pd.read_csv(path)
+    df = pd.read_csv(path, low_memory=False)
     row_count, column_count = df.shape
     print("File name: ",path)
     print("Number of rows ", row_count)
@@ -26,4 +29,14 @@ allPath = list(set(allPath))
 
 for path in allPath:
     if path.endswith(".csv"):
-       readAndPrintRow(path)
+        if country != "*" and topic != "*":
+            if country in path and topic in path:
+                readAndPrintRow(path)
+        elif country != "*" and topic == "*":
+            if country in path:
+                readAndPrintRow(path)
+        elif country == "*" and topic != "*":
+            if topic in path:
+                readAndPrintRow(path)
+        else:
+            readAndPrintRow(path)
